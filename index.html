@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix Code Over Image</title>
+    <title>Shooting Stars Over Image</title>
     <style>
         body {
             margin: 0;
@@ -30,56 +30,52 @@
             display: block;
         }
 
-        .matrix {
+        .shooting-star {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(45deg, white, rgba(255, 255, 255, 0));
             pointer-events: none;
-            mix-blend-mode: lighten; /* Blend mode to mix the code with the image */
+            opacity: 0;
+            animation: shoot 3s linear infinite;
         }
 
-        .matrix canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        @keyframes shoot {
+            0% {
+                transform: translate(-200px, -200px) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(800px, 800px) rotate(45deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="image-container">
         <img src="your-photo.jpg" alt="Background Image">
-        <div class="matrix">
-            <canvas id="matrixCanvas"></canvas>
-        </div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
     </div>
 
     <script>
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
+        const stars = document.querySelectorAll('.shooting-star');
 
-        canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = canvas.parentElement.clientHeight;
+        stars.forEach((star) => {
+            setInterval(() => {
+                const startX = Math.random() * window.innerWidth;
+                const startY = Math.random() * window.innerHeight;
+                const delay = Math.random() * 5;
 
-        const letters = Array(128).join(1).split(''); // Reduced density
-
-        function drawMatrix() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas each frame
-            ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'; // Further increase transparency
-
-            letters.forEach((y_pos, index) => {
-                const text = String.fromCharCode(3e4 + Math.random() * 33);
-                const x_pos = index * 40; // Increase spacing between columns
-                ctx.fillText(text, x_pos, y_pos);
-                letters[index] = y_pos > canvas.height + Math.random() * 1e4 ? 0 : y_pos + 20;
-            });
-        }
-
-        setInterval(drawMatrix, 50);
+                star.style.top = `${startY}px`;
+                star.style.left = `${startX}px`;
+                star.style.animationDelay = `${delay}s`;
+            }, 3000);
+        });
     </script>
 </body>
 </html>
