@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shooting Stars Over Image</title>
+    <title>Ripple Effect on Image</title>
     <style>
         body {
             margin: 0;
@@ -21,6 +21,7 @@
             height: 100%;
             max-width: 800px;
             max-height: 800px;
+            overflow: hidden;
         }
 
         .image-container img {
@@ -30,23 +31,28 @@
             display: block;
         }
 
-        .shooting-star {
+        .ripple {
             position: absolute;
-            width: 2px;
-            height: 100px;
-            background: linear-gradient(45deg, white, rgba(255, 255, 255, 0));
-            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
             opacity: 0;
-            animation: shoot 3s linear infinite;
+            pointer-events: none;
+            animation: ripple 1s ease-out infinite;
+            animation-delay: 10s; /* Start the ripple effect after 10 seconds */
         }
 
-        @keyframes shoot {
+        @keyframes ripple {
             0% {
-                transform: translate(-200px, -200px) rotate(45deg);
+                transform: translate(-50%, -50%) scale(0);
                 opacity: 1;
             }
             100% {
-                transform: translate(800px, 800px) rotate(45deg);
+                transform: translate(-50%, -50%) scale(4);
                 opacity: 0;
             }
         }
@@ -55,27 +61,18 @@
 <body>
     <div class="image-container">
         <img src="your-photo.jpg" alt="Background Image">
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
+        <div class="ripple"></div>
     </div>
 
     <script>
-        const stars = document.querySelectorAll('.shooting-star');
+        function createRipple() {
+            const ripple = document.querySelector('.ripple');
+            ripple.style.animation = 'none';
+            ripple.offsetHeight; // Trigger reflow
+            ripple.style.animation = 'ripple 1s ease-out';
+        }
 
-        stars.forEach((star) => {
-            setInterval(() => {
-                const startX = Math.random() * window.innerWidth;
-                const startY = Math.random() * window.innerHeight;
-                const delay = Math.random() * 5;
-
-                star.style.top = `${startY}px`;
-                star.style.left = `${startX}px`;
-                star.style.animationDelay = `${delay}s`;
-            }, 3000);
-        });
+        setInterval(createRipple, 10000); // Trigger ripple every 10 seconds
     </script>
 </body>
 </html>
