@@ -28,7 +28,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0.8; /* Slight transparency to see the code better */
         }
 
         .matrix {
@@ -68,9 +67,9 @@
         const letters = Array(256).join(1).split('');
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Dark background with slight transparency
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#0F0'; // Green color for the matrix effect
+            ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'; // Green color for the matrix effect with transparency
 
             letters.forEach((y_pos, index) => {
                 const text = String.fromCharCode(3e4 + Math.random() * 33);
