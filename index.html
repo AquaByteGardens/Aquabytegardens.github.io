@@ -38,6 +38,7 @@
             height: 100%;
             overflow: hidden;
             pointer-events: none;
+            mix-blend-mode: lighten; /* Blend mode to mix the code with the image */
         }
 
         .matrix canvas {
@@ -64,18 +65,17 @@
         canvas.width = canvas.parentElement.clientWidth;
         canvas.height = canvas.parentElement.clientHeight;
 
-        const letters = Array(256).join(1).split('');
+        const letters = Array(128).join(1).split(''); // Reduced density
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Dark background with slight transparency
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'; // Green color for the matrix effect with transparency
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas each frame
+            ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'; // Further increase transparency
 
             letters.forEach((y_pos, index) => {
                 const text = String.fromCharCode(3e4 + Math.random() * 33);
-                const x_pos = index * 20;
+                const x_pos = index * 40; // Increase spacing between columns
                 ctx.fillText(text, x_pos, y_pos);
-                letters[index] = y_pos > 758 + Math.random() * 1e4 ? 0 : y_pos + 20;
+                letters[index] = y_pos > canvas.height + Math.random() * 1e4 ? 0 : y_pos + 20;
             });
         }
 
